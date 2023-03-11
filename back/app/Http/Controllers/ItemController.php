@@ -59,11 +59,6 @@ class ItemController extends Controller
             ->with('success', 'Item updated successfully');
     }
 
-/*   public function destroy(string $id)
-    {
-        Item::destroy($id);
-        return response()->json(['message' => 'El producto se ha eliminado correctamente'], 200);
-    } */
 
 
         public function destroy($id)
@@ -101,8 +96,42 @@ class ItemController extends Controller
     $item->price = $request->price;
     $item->save();
 
+    // Attach the item to the user with a quantity of 1
+    $user = Auth::user();
+    $user->items()->attach($item->id, ['quantity' => 1]);
+
     return redirect()->route('home')
         ->with('success', 'Item created successfully');
+}
+
+
+public function buy($id)
+{
+    // Get the authenticated user
+    $user = Auth::user();
+
+    // Get the item to be bought
+    $item = Item::findOrFail($id);
+
+    // Check if the user already has the item in their inventory
+    $existingPivot = $user->items()->where('item_id', $item->id)->first();
+
+    if ($existingPivot) {
+        // Update the quantity in the pivot table
+        $existingPivot->pivot->quantity++;
+        $existingPivot->pivot->save();
+    } else {
+        // Attach the item to the user with a quantity of 1
+        $user->items()->attach($item->id, ['quantity' => 1]);
+    }
+
+    // Decrement the stock quantity of the item
+    $item->stockQuantity--;
+
+    // Save the changes
+    $item->save();
+
+    return redirect()->back()->with('success', 'Item bought successfully');
 }
 
 }

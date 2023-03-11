@@ -11,5 +11,11 @@
             <h4>Precio: {{$item->price}}€</h4>
             <h4>{{$item->stockQuantity}} Unidades disponibles</h4>
         </div>
+
+        <form action="{{ route('items.buy', $item->id) }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-primary">Buy</button>
+</form>
+
     </div>
 @endsection
