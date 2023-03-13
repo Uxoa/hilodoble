@@ -11,11 +11,6 @@
             <h4>Precio: {{$item->price}}€</h4>
             <h4>{{$item->stockQuantity}} Unidades disponibles</h4>
         </div>
-
-        <form action="{{ route('items.buy', $item->id) }}" method="POST">
-    @csrf
-    <button type="submit" class="btn btn-primary">Buy</button>
-</form>
-
+        <a href="{{ route('home') }}" class="btn btn-outline-secondary">Volver</a><br>
     </div>
 @endsection

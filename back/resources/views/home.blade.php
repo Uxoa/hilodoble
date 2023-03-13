@@ -46,11 +46,6 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Estás seguro de querer borrar este producto?')">BORRAR</button>
                             </form>
-                            <form action="{{ route('items.buy', $item->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary">Buy</button>
-                            </form>
-
                         </td>
                     </tr>
                 @endforeach

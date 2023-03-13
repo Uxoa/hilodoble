@@ -30,11 +30,11 @@ class Item extends Model
     ];
 
 
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany('App\Models\User')->withPivot('quantity');
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
-    
+
 
 
 }

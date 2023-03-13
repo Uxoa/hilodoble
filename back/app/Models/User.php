@@ -45,7 +45,6 @@ class User extends Authenticatable
 
     public function items()
     {
-        return $this->belongsToMany('App\Models\Item')->withPivot('quantity');
+        return $this->hasMany('App\Models\Item', 'user_id', 'id');
     }
-    
 }
